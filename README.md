@@ -81,3 +81,6 @@ pm2 start src/server.js -i max
 ```
 
 For compute-intensive tasks, use worker threads. Each worker will be responsible for a task inside the same process. This prevents heavy tasks from blocking the main thread.
+
+## Database
+Using MongoDB and Moongoose: https://cloud.mongodb.com/v2/621cb66ddfcb2447f2c0e1ed
