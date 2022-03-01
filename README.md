@@ -84,3 +84,96 @@ For compute-intensive tasks, use worker threads. Each worker will be responsible
 
 ## Database
 Using MongoDB and Moongoose: https://cloud.mongodb.com/v2/621cb66ddfcb2447f2c0e1ed
+
+mongooose-paginate for pagination when using MongoDB: https://github.com/aravindnc/mongoose-paginate-v2#readme
+
+Pagination is good for reducing workload.
+
+## API Versioning
+It's good practice to version our API so that when we want to update it, we can also leave the old API available for our current users.
+```
+https://localhost:8000/launches -> https://localhost:8000/v1/launches
+
+// api.js
+const express = require('express');
+
+const planetsRouter = require('./planets/planets.router');
+
+const api = express.Router();
+
+api.use('/planets', planetsRouter);
+
+module.exports = api;
+
+// app.js
+const api = require('./routes/api');
+app.use('/v1', api);
+app.use('/v2', v2Api); // when v2 is available
+
+```
+
+## Node Security + Authentication
+HTTPS encrypts data in transit!
+It uses a digital certificate.
+```
+Used to verify the server's ownership prior to sending encrypted data.
+```
+Provided by a certificate authority (trusted organization) like Let's Encrypt.
+
+We can use self-signed certificate for enabling HTTPS but not trusted by others.
+But on production environment, necessary to use a CA-signed certificate.
+
+```
+const fs = require('fs');
+
+https.createServer({
+  key: fs.readFileSync('key.pem'),
+  cert: fs.readFileSync('cert.pem'),
+}, app).listen(PORT, () => {
+  console.log(`Listening on port ${PORT}`);
+});
+
+```
+
+Use OpenSSL to generate self-signed certificate on local machine.
+
+```
+$ openssl req -x509 -newkey rsa:4096 -nodes -keyout key.pem -out cert.pem -days 365
+```
+
+Results: two files, key.pem & cert.pem
+
+### Helmet.js
+Nice package for security Express apps by setting various HTTP headers.
+For example `X-Powered-By: Express` would be removed. And it can add other headers such as Strict-Transport-Security to
+
+### JWT Tokens
+JWT Tokens include data, the payload which contains custom fields and useful information: https://jwt.io/
+Tokens are composed of 3 parts: header (algorithm & token type), payload (custom data), verify signature (to verify if the data has not been tampered by any malicious third party).
+
+### OAuth
+Keeps third-party password safe by going through the official portal instead of inputting directly our third-party credentials on an untrusted website.
+
+- Resource Owner (the user)
+- Client (www.myapp.com)
+- Resource Server (api.myapp.com)
+- Authorization Server (accounts.google.com)
+
+**Authorization Code Flow**
+https://developer.okta.com/docs/concepts/oauth-openid/#authorization-code-flow
+
+### Cookie-based Authentication
+- https://stackoverflow.com/questions/17000835/token-authentication-vs-cookies#:~:text=A%20Token%20can%20be%20given,browser%20(by%20the%20browser)
+
+- https://www.youtube.com/watch?v=ZSbvMhkfMYE
+
+```
+Pros:
+- Cookies can be marked as "http-only" which makes them impossible to be read on the client side. This is better for XSS-attack protection.
+- Comes out of the box - you don't have to implement any code on the client side.
+
+Cons:
+-Bound to a single domain. (So if you have a single page application that makes requests to multiple services, you can end up doing crazy stuff like a reverse proxy.)
+- Vulnerable to XSRF. You have to implement extra measures to make your site protected against cross site request forgery.
+Are sent out for every single request, (even for requests that don't require authentication).
+```

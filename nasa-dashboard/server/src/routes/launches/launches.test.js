@@ -14,7 +14,7 @@ describe ('Launches API', () => {
   describe('Test GET /launches', () => {
     test('It should respond with 200 success', async () => {
       await request(app)
-        .get('/launches')
+        .get('/v1/launches')
         .expect('Content-Type', /json/)
         .expect(200);
     });
@@ -26,7 +26,7 @@ describe ('Launches API', () => {
     test('It should respond with 201 created', async () => {
       const launchData = {... body};
       const response = await request(app)
-        .post('/launches')
+        .post('/v1/launches')
         .send(launchData)
         .expect('Content-Type', /json/)
         .expect(201);
@@ -40,7 +40,7 @@ describe ('Launches API', () => {
       delete launchData.rocket;
 
       const response = await request(app)
-        .post('/launches')
+        .post('/v1/launches')
         .send({ mission: 'France Alpha', target: 'Kepler', launchDate: 'June 24, 2019'})
         .expect('Content-Type', /json/)
         .expect(400);
@@ -56,7 +56,7 @@ describe ('Launches API', () => {
       launchData.launchDate = 'invalid date';
       console.log('launchData', launchData);
       const response = await request(app)
-        .post('/launches')
+        .post('/v1/launches')
         .send(launchData)
         .expect('Content-Type', /json/)
         .expect(400);

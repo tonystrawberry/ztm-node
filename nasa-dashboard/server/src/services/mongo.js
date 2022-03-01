@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
+require('dotenv').config();
 
-const MONGO_URL = "mongodb://nasa-api:UDLEw8lJoAZrfloL@nasacluster-shard-00-00.wmhyj.mongodb.net:27017,nasacluster-shard-00-01.wmhyj.mongodb.net:27017,nasacluster-shard-00-02.wmhyj.mongodb.net:27017/nasa?ssl=true&replicaSet=atlas-1jgawc-shard-0&authSource=admin&retryWrites=true&w=majority"
+const MONGO_URL = process.env.MONGO_URL;
 
 mongoose.connection.on('open', () => {
   console.log('MongoDB connection ready!');
