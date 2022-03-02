@@ -177,3 +177,19 @@ Cons:
 - Vulnerable to XSRF. You have to implement extra measures to make your site protected against cross site request forgery.
 Are sent out for every single request, (even for requests that don't require authentication).
 ```
+
+### Sessions
+Used for storing data about the current logged in user in the browser.
+
+## Stateful cookie
+username & password -> server returns cookie with session value -> that cookie value is stored in database
+
+## Stateless cookie
+Used in the vast majority of cases. No session data is stored like for JWT Authentication.
+No database required.
+Make sure you don't put too much data because cookie size is limited and we don't want to use too much bandwidth.
+
+## Packages
+cookie-session -> client-side session (session is stored in browser) -> popular one because we don't care if the user sees its own data
+express-session -> server-side session (session is stored in database) -> if keeping session data private is a requirement
+
