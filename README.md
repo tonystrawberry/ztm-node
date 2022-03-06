@@ -193,3 +193,12 @@ Make sure you don't put too much data because cookie size is limited and we don'
 cookie-session -> client-side session (session is stored in browser) -> popular one because we don't care if the user sees its own data
 express-session -> server-side session (session is stored in database) -> if keeping session data private is a requirement
 
+## Socket.io
+Useful for apps that requires the client to be synchronized with the latest data without using polling.
+Documentation: https://socket.io/docs/v4/
+
+https://socket.io/docs/v4/emit-cheatsheet/
+
+Namespace is useful for dividing many distinct apps using the same socket server. It allows these apps not to interfere with each other and to be completely independent.
+Then, we have rooms that can be applied to group socket connections (like for a chat room or a game session).
+
